@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+st.title("Ask Me Anything")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
   
@@ -26,7 +28,6 @@ def query(messages):
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-st.title("Ask Me Anything")
 user_input = st.chat_input("Type your question...")
 
 if user_input:
