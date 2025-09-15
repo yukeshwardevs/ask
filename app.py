@@ -31,9 +31,15 @@ for msg in st.session_state.messages:
 user_input = st.chat_input("Type your question...")
 
 if user_input:
-  st.session_state.messages.append({"role": "user", "content": user_input})
-  response = query(st.session_state.messages)
-  bot_content = response["choices"][0]["message"]["content"]
-  cleaned = re.sub(r"<think>.*?</think>", "", bot_content, flags=re.DOTALL).strip()
-  st.session_state.messages.append({"role": "assistant", "content": cleaned})
-  st.chat_message("assistant").write(cleaned)
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    response = query(st.session_state.messages)
+
+    # Debug: Show raw response if needed
+    if "choices" not in response:
+        st.error(f"API Error: {response}")
+    else:
+        bot_content = response["choices"][0]["message"]["content"]
+        cleaned = re.sub(r"<think>.*?</think>", "", bot_content, flags=re.DOTALL).strip()
+        st.session_state.messages.append({"role": "assistant", "content": cleaned})
+        st.chat_message("assistant").write(cleaned)
+
